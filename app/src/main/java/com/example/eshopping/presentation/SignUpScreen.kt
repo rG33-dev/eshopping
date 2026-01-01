@@ -1,12 +1,17 @@
 package com.example.eshopping.presentation
 
 import android.widget.Toast
+import androidx.compose.animation.expandHorizontally
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,6 +28,10 @@ import androidx.compose.ui.unit.sp
 import com.example.eshopping.presentation.Utils.CustomTextField
 import java.time.format.TextStyle
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -120,22 +129,48 @@ fun SignUp() {
                 .padding(vertical = 4.dp)
         )
 
-        Button(onClick = {
-            if (firstName.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && email.isNotEmpty()) {
-                if (password==confirmPassword){
-                    Toast.makeText(context,"Welcome", Toast.LENGTH_SHORT).show()
+        Button(
+            onClick = {
+                if (firstName.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && email.isNotEmpty()) {
+                    if (password == confirmPassword) {
+                        Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Password Mismatch", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(context, "Please Fill Required Details", Toast.LENGTH_SHORT)
+                        .show()
                 }
-                else{
-                    Toast.makeText(context,"Password Mismatch", Toast.LENGTH_SHORT).show()
-                }
-            }
-            else{
-                Toast.makeText(context,"Please Fill Required Details", Toast.LENGTH_SHORT).show()
-            }
+
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(colorResource(id = R.color.purple_500))
+        ) {
+            Text(text = "Sign Up", color = colorResource(id = R.color.white))
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            HorizontalDivider(modifier = Modifier.weight(1f))
+
+            Text(text = "", modifier = Modifier.padding(horizontal = 8.dp))
+
+
+            HorizontalDivider(modifier = Modifier.weight(1f))
+
 
         }
+        OutlinedButton(
+            onClick = {},
+
         ) {
-            Text(text = "Sign Up")
+
         }
 
 
