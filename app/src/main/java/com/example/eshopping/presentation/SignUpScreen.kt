@@ -1,9 +1,12 @@
 package com.example.eshopping.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,75 +23,123 @@ import androidx.compose.ui.unit.sp
 import com.example.eshopping.presentation.Utils.CustomTextField
 import java.time.format.TextStyle
 import androidx.compose.material3.Icon
-
-
-
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import com.example.eshopping.R
 
 
 @Preview(showBackground = true)
 @Composable
-fun SignUp(){
-
-
+fun SignUp() {
 
 
     val context = LocalContext.current
-    var firstName by remember{ mutableStateOf("") }
-    val lastName by remember{ mutableStateOf("") }
-    val password by remember{ mutableStateOf("") }
-    val confirmPassword by remember{ mutableStateOf("") }
-    val contact by remember{ mutableStateOf("") }
+    var firstName by remember { mutableStateOf("") }
+    var lastName by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+    var contact by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
 
 
-    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    )
     {
-        Text(text = "Join Us" ,
-        fontSize = 24.sp,
-            modifier = Modifier.padding(vertical = 16.dp).align(Alignment.Start)
+        Text(
+            text = "Join Us",
+            fontSize = 24.sp,
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .align(Alignment.Start)
 
         )
 
 
         CustomTextField(
-            value = "firstName",
-            onValueChange = {firstName = it},
+            value = firstName,
+            onValueChange = { firstName = it },
             label = "First Name",
-           // leadingIcon = Icons.Default.Person,
-            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
-
-
+            //leadingIcon = Icon(painter = painterResource(id = R.drawable.ic_launcher_background)), //this icon will appear before name
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp)
+        )
+        CustomTextField(
+            value = lastName,
+            onValueChange = { lastName = it },
+            label = "Last Name",
+            //leadingIcon = Icon(painter = painterResource(id = R.drawable.ic_launcher_background)), //this icon will appear before name
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp)
         )
 
 
+        CustomTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = "Password",
+            //leadingIcon = Icon(painter = painterResource(id = R.drawable.ic_launcher_background)), //this icon will appear before name
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
+            visualTransformation = PasswordVisualTransformation(),//use to hide password
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)//use to hide password
+        )
+        CustomTextField(
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            label = "Confirm Password",
+            //leadingIcon = Icon(painter = painterResource(id = R.drawable.ic_launcher_background)), //this icon will appear before name
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
+            visualTransformation = PasswordVisualTransformation()
+        )
+        CustomTextField(
+            value = contact,
+            onValueChange = { contact = it },
+            label = "Mobile",
+            //leadingIcon = Icon(painter = painterResource(id = R.drawable.ic_launcher_background)), //this icon will appear before name
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp)
+        )
+        CustomTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = "Mail",
+            //leadingIcon = Icon(painter = painterResource(id = R.drawable.ic_launcher_background)), //this icon will appear before name
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp)
+        )
 
+        Button(onClick = {
+            if (firstName.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && email.isNotEmpty()) {
+                if (password==confirmPassword){
+                    Toast.makeText(context,"Welcome", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(context,"Password Mismatch", Toast.LENGTH_SHORT).show()
+                }
+            }
+            else{
+                Toast.makeText(context,"Please Fill Required Details", Toast.LENGTH_SHORT).show()
+            }
 
-
-
-
+        }
+        ) {
+            Text(text = "Sign Up")
+        }
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
