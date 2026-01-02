@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.eshopping.presentation.LoginScreen
 import com.example.eshopping.presentation.SignUp
 import com.example.eshopping.ui.theme.EshoppingTheme
 
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             EshoppingTheme {
 
-                SignUp()
+                LoginScreen()
 
             }
         }
