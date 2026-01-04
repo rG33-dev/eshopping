@@ -1,18 +1,17 @@
 package com.example.eshopping.domain.useCase
 
+import coil3.Uri
 import com.example.eshopping.common.ResultState
 import com.example.eshopping.domain.models.UserDataParent
 import com.example.eshopping.domain.repo.Repo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class UpdateUserDataUseCase @Inject constructor(private val repo : Repo) {
+class UserProfileImageUseCase@Inject constructor(private val repo : Repo) {
 
-    fun updateUserData(userDataParent: UserDataParent): Flow<ResultState<Any>>
-    {
-        return repo.updateUserData(userDataParent)
+    fun updateUserData(uri: Uri): Flow<ResultState<Any>> {
+        return repo.userProfileImage(uri)
     }
-
 
 
 }
