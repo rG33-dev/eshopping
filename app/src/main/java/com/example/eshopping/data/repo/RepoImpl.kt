@@ -73,12 +73,24 @@ class RepoImpl @Inject constructor(
         }
     }
 
-    override fun loginUserWithMailAndPassword(userData: UserData): Flow<ResultState<Any>> {
-        TODO("Not yet implemented")
+    override fun loginUserWithMailAndPassword(userData: UserData): Flow<ResultState<Any>> = callbackFlow() {
+        trySend(ResultState.Loading)
+        firebaseAuth.signInWithEmailAndPassword(userData.mail, userData.password).addOnCompleteListener {
+            if (it.isSuccessful){
+                trySend(ResultState.Success("Login Successful"))
+            }else{
+                trySend(ResultState.Error(it.exception?.localizedMessage?:"Login Error"))
+            }
+        }
+        awaitClose {
+            close()
+        }
+
     }
 
-    override fun getUsrById(uid: Any): Flow<ResultState<Any>> {
-        TODO("Not yet implemented")
+    override fun getUsrById(uid: Any): Flow<ResultState<Any>>  = callbackFlow {
+
+
     }
 
     override fun updateUserData(userData: UserDataParent): Flow<ResultState<Any>> {
