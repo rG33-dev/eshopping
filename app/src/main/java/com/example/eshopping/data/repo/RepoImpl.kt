@@ -12,6 +12,7 @@ import com.example.eshopping.domain.models.UserDataParent
 import com.example.eshopping.domain.repo.Repo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -28,7 +29,7 @@ class RepoImpl @Inject constructor(
         trySend(ResultState.Loading)
 
         firebaseAuth
-            .createUserWithEmailAndPassword(userData.mail, userData.password)
+            .createUserWithEmailAndPassword(userData.mail.toString(), userData.password.toString())
             .addOnCompleteListener { authTask ->
 
                 if (authTask.isSuccessful) {
@@ -75,7 +76,9 @@ class RepoImpl @Inject constructor(
 
     override fun loginUserWithMailAndPassword(userData: UserData): Flow<ResultState<Any>> = callbackFlow() {
         trySend(ResultState.Loading)
-        firebaseAuth.signInWithEmailAndPassword(userData.mail, userData.password).addOnCompleteListener {
+        firebaseAuth.signInWithEmailAndPassword(userData.mail.toString(),
+            userData.password.toString()
+        ).addOnCompleteListener {
             if (it.isSuccessful){
                 trySend(ResultState.Success("Login Successful"))
             }else{
@@ -89,25 +92,95 @@ class RepoImpl @Inject constructor(
     }
 
     override fun getUsrById(uid: Any): Flow<ResultState<Any>>  = callbackFlow {
+        trySend(ResultState.Loading)
+        firebaseFirestore.collection(USER_COLLECTION).document(uid.toString()).get().addOnCompleteListener {
+            if (it.isSuccessful){
+                val data = it.result.toObject(UserDataParent::class.java) !!
+                val userDataParent = UserDataParent(it.result.id, userData = data.userData)
+
+                trySend(ResultState.Success(userDataParent))
+            }else{
+                if(it.exception != null){
+                    trySend(ResultState.Error(it.exception!!.localizedMessage?:"Error"))
+
+                }
+            }
+        }
+        awaitClose {
+            close()
+        }
+2
+
+    }
+
+    override fun updateUserData(UserDataParent: UserDataParent): Flow<ResultState<Any>> = callbackFlow{
+        trySend(ResultState.Loading)
+        firebaseFirestore.collection(USER_COLLECTION).document(UserDataParent.nodeId).update(
+            UserDataParent.userData.toMap()).addOnCompleteListener {
+            if (it.isSuccessful){
+                trySend(ResultState.Success("Updated"))
+            }else{
+                if(it.exception != null){
+                    trySend(ResultState.Error(it.exception!!.localizedMessage?:"Error"))
+
+                }
+            }
+        }
+        awaitClose {
+            close()
+        }
 
 
     }
 
-    override fun updateUserData(userData: UserDataParent): Flow<ResultState<Any>> {
-        TODO("Not yet implemented")
+    override fun userProfileImage(uri: Uri): Flow<ResultState<Any>> = callbackFlow {
+//        trySend(FirebaseStorage.getInstance().reference.child("users/${uri.lastPathSegment}").putFile(uri).addOnCompleteListener {
+//            if (it.isSuccessful){
+//                trySend(ResultState.Success"))
+//    }
+//        )else{
+//            if(it.exception != null){
+//                trySend(ResultState.Error(it.exception!!.localizedMessage}
+//        }
+//        }
+//        awaitClose {
+//            close()
+//        }
+        /*
+        Need Firebase storage access and then create an object in it to access the code
+         */
+
     }
 
-    override fun userProfileImage(uri: Uri): Flow<ResultState<Any>> {
-        TODO("Not yet implemented")
+
+    override fun getCategoriesInLimited(): Flow<ResultState<List<CategoryDataModel>>>  = callbackFlow{
+        trySend(ResultState.Loading)
+        firebaseFirestore.collection("categories").limit(7).get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                val data = it.result.toObjects(CategoryDataModel::class.java)
+                trySend(ResultState.Success(data))
+            } else {
+                if (it.exception != null) {
+                    trySend(ResultState.Error(it.exception!!.localizedMessage ?: "Error"))
+                }
+
+            }
+        }
+
     }
 
-    override fun getCategoriesInLimited(): Flow<ResultState<List<CategoryDataModel>>> {
-        TODO("Not yet implemented")
-    }
+    override fun getProductsInLimited(): Flow<ResultState<List<ProductDataModel>>> =  callbackFlow{
+        trySend(ResultState.Loading)
+       firebaseFirestore.collection("Products").limit(10).get().addOnCompleteListener {
+//           val products = it.documents.mapNotNull {
+//               it.toObject(ProductDataModel::class.java)
+//               productId = documents.id
+//           }
+       }
 
-    override fun getProductsInLimited(): Flow<ResultState<List<ProductDataModel>>> {
-        TODO("Not yet implemented")
-    }
+
+       }
+
 
     override fun getAllProducts(): Flow<ResultState<List<ProductDataModel>>> {
         TODO("Not yet implemented")
