@@ -7,7 +7,7 @@ import com.example.eshopping.domain.repo.Repo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class getSpecificCategory@Inject constructor(private val repo : Repo) {
+class getSpecificCategoryUseCase @Inject constructor(private val repo : Repo) {
 
     fun getSpecificCategory(categoryName: String): Flow<ResultState<List<ProductDataModel>>> {
         return repo.getSpecificCategoryItems(categoryName)

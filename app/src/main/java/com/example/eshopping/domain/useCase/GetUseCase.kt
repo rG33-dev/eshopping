@@ -7,7 +7,7 @@ import com.example.eshopping.domain.repo.Repo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetUseCase@Inject constructor(private val repo : Repo) {
+class GetCartUseCase@Inject constructor(private val repo : Repo) {
 
     fun getCart(): Flow<ResultState<List<CartDataModel>>>
     {
