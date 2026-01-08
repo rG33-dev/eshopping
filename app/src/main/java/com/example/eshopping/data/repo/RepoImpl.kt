@@ -277,9 +277,6 @@ class RepoImpl @Inject constructor(
 
     }
 
-    override fun getAllCategories(): Flow<ResultState<List<CategoryDataModel>>> { // need to check for documents error
-        TODO("Not yet implemented")
-    }
 
     override fun getCheckout(productId: String): Flow<ResultState<ProductDataModel>>  =  callbackFlow{
         trySend(ResultState.Loading)
@@ -336,6 +333,18 @@ class RepoImpl @Inject constructor(
         awaitClose {
             close()
         }
+    }
+    override fun getAllCategories(): Flow<ResultState<List<CategoryDataModel>>> = callbackFlow {
+        trySend(ResultState.Loading)
+        firebaseFirestore.collection("categories").get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val categories = task.result.toObjects(CategoryDataModel::class.java)
+                trySend(ResultState.Success(categories))
+            } else {
+                trySend(ResultState.Error(task.exception?.localizedMessage ?: "Unknown Error"))
+            }
+        }
+        awaitClose { close() }
     }
 }
 

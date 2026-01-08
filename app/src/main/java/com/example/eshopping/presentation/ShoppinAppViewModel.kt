@@ -1,10 +1,9 @@
 package com.example.eshopping.presentation
 
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.eshopping.common.HomeScreenState
+import com.example.eshopping.common.ResultState
 import com.example.eshopping.domain.models.CartDataModel
 import com.example.eshopping.domain.models.CategoryDataModel
 import com.example.eshopping.domain.models.ProductDataModel
@@ -111,140 +110,234 @@ class ShoppingAppViewModel @Inject constructor(
 
         viewModelScope.launch {
             getSpecificCategoryItemsUseCase.getSpecificCategory(categoryName).collect {
+
+
                 when (it) {
                     is com.example.eshopping.common.ResultState.Success -> {
                         _getSpecificCategoryItemsState.value =
-                            GetSpecificCategoryItemsState(userData = it.data)
+                            getSpecificCategoryItemsState.value.copy(
+                                userData = it.data,
+                                isLoading = false,
+                                errorMessage = null
+                            )
 
                     }
 
-                    else -> {
+                    is com.example.eshopping.common.ResultState.Error -> {
                         _getSpecificCategoryItemsState.value =
-                            GetSpecificCategoryItemsState(errorMessage = it.toString())
+                            _getSpecificCategoryItemsState.value.copy(
+                                isLoading = false,
+                                errorMessage = it.message
+                            )
+
+                    }
+
+                    is ResultState.Loading -> {
+                        _getSpecificCategoryItemsState.value =
+                            _getSpecificCategoryItemsState.value.copy(
+                                isLoading = true,
+                                errorMessage = null
+                            )
                     }
                 }
             }
         }
     }
+
+    fun getAllSuggestedProducts(suggestedProduct :String)
+    {
+
+        viewModelScope.launch {
+            getAllSuggestedProductsUseCase.getAllSuggested(suggestedProduct).collect {
+                when (it) {
+                    is com.example.eshopping.common.ResultState.Success -> {
+                        _getAllSuggestedProductsState.value =
+                            _getAllSuggestedProductsState.value.copy(
+                                userData = it.data,
+                                isLoading = false,
+                                errorMessage = null
+                            )
+
+                    }
+
+                    is com.example.eshopping.common.ResultState.Error -> {
+                        _getAllSuggestedProductsState.value =
+                            _getAllSuggestedProductsState.value.copy(
+                                isLoading = false,
+                                errorMessage = it.message
+                            )
+                    }
+
+
+                    else -> {}
+                }
+
+            }
+
+        }
+    }
+
+//    fun getCheckOut(productId:String){  // need to make get checkout use case or check for it
+//        viewModelScope.launch {
+//            getCheckoutUseCase.GetU(productId).collect{
+//                when(it){
+//                    is com.example.eshopping.common.ResultState.Success<*> -> {
+//                        _getCheckoutState.value =
+//                            _getCheckoutState.value.copy(
+//                                userData = it.data,
+//                                isLoading = false,
+//                                errorMessage = null)
+//
+//
+//                }
+//            }
+//        }
+//
+//    }
+
+    fun getAllCategories() {
+        viewModelScope.launch {
+
+            getCategoriesInLimitedUseCase.getCategoryLimit(productId = String()).collect { it ->
+                when (it) {
+                    is ResultState.Success -> {
+                        _getAllCategoriesState.value = _getAllCategoriesState.value.copy(
+                           // userData = it.data,
+                            isLoading = false,
+                            errorMessage = null
+                        )
+                    }
+                    is ResultState.Error -> {
+                        _getAllCategoriesState.value = _getAllCategoriesState.value.copy(
+                            isLoading = false,
+                            errorMessage = it.message
+                        )
+                    }
+                    is ResultState.Loading -> {
+                        _getAllCategoriesState.value = _getAllCategoriesState.value.copy(
+                            isLoading = true
+                        )
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 
+        data class ProfileScreenState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: UserDataParent? = null
+        )
+
+        data class SignUpScreenState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: UserDataParent? = null
+        )
+
+        data class LoginScreenState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: UserDataParent? = null
+
+        )
+
+        data class UpDateScreenState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: String? = null
+        )
+
+        data class UploadUserImageScreenState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: String? = null
+        )
+
+        data class AddToCartState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: String? = null
+        )
+
+        data class GetProductByIdState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: ProductDataModel? = null
+        )
+
+        data class AddToFavState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: String? = null
+        )
+
+        data class GetAllFavState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: List<ProductDataModel>? = null
+
+        )
+
+        data class GetAllProductsState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: List<ProductDataModel>? = emptyList()
+
+        )
+
+        data class GetCartState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: List<CartDataModel>? = emptyList()
 
 
+        )
+
+        data class GetAllCategoriesState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: List<CategoryDataModel>? = emptyList()
 
 
+        )
+
+        data class GetCheckoutState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: ProductDataModel? = null
 
 
+        )
+
+        data class GetBannerState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: List<ProductDataModel>? = emptyList()
 
 
+        )
+
+        data class GetSpecificCategoryItemsState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: List<ProductDataModel>? = emptyList()
 
 
+        )
+
+        data class GetAllSuggestedProductsState(
+            val isLoading: Boolean = false,
+            val errorMessage: String? = null,
+            val userData: List<ProductDataModel>? = emptyList()
 
 
+        )
 
 
-data class ProfileScreenState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : UserDataParent? = null
-)
-
-data class SignUpScreenState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : UserDataParent? = null
-)
-
-data class LoginScreenState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val userData : UserDataParent? = null
-
- )
-
-data class UpDateScreenState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : String? = null
-)
-
-data class UploadUserImageScreenState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : String? = null)
-
-data class AddToCartState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : String? = null
-)
-
-data class GetProductByIdState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : ProductDataModel? = null
-)
-data class AddToFavState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : String? = null
-)
-data class GetAllFavState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : List<ProductDataModel>? = null
-
-)
-
-data class GetAllProductsState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : List<ProductDataModel>? = emptyList()
-
-)
-data class GetCartState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : List<CartDataModel>? = emptyList()
-
-
-)
-
-data class GetAllCategoriesState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : List<CategoryDataModel>? = emptyList()
-
-
-)
-data class GetCheckoutState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : ProductDataModel? = null
-
-
-)
-data class GetBannerState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : List<ProductDataModel>? = emptyList()
-
-
-)
-data class GetSpecificCategoryItemsState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : List<ProductDataModel>? = emptyList()
-
-
-)
-data class GetAllSuggestedProductsState(
-    val isLoading : Boolean = false,
-    val errorMessage :  String? =  null,
-    val  userData : List<ProductDataModel>? = emptyList()
-
-
-)
 
 
 
