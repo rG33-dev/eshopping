@@ -1,4 +1,4 @@
-package com.example.eshopping.presentation
+package com.example.eshopping.presentation.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -113,7 +113,7 @@ class ShoppingAppViewModel @Inject constructor(
 
 
                 when (it) {
-                    is com.example.eshopping.common.ResultState.Success -> {
+                    is ResultState.Success -> {
                         _getSpecificCategoryItemsState.value =
                             getSpecificCategoryItemsState.value.copy(
                                 userData = it.data,
@@ -123,7 +123,7 @@ class ShoppingAppViewModel @Inject constructor(
 
                     }
 
-                    is com.example.eshopping.common.ResultState.Error -> {
+                    is ResultState.Error -> {
                         _getSpecificCategoryItemsState.value =
                             _getSpecificCategoryItemsState.value.copy(
                                 isLoading = false,
@@ -150,7 +150,7 @@ class ShoppingAppViewModel @Inject constructor(
         viewModelScope.launch {
             getAllSuggestedProductsUseCase.getAllSuggested(suggestedProduct).collect {
                 when (it) {
-                    is com.example.eshopping.common.ResultState.Success -> {
+                    is ResultState.Success -> {
                         _getAllSuggestedProductsState.value =
                             _getAllSuggestedProductsState.value.copy(
                                 userData = it.data,
@@ -160,7 +160,7 @@ class ShoppingAppViewModel @Inject constructor(
 
                     }
 
-                    is com.example.eshopping.common.ResultState.Error -> {
+                    is ResultState.Error -> {
                         _getAllSuggestedProductsState.value =
                             _getAllSuggestedProductsState.value.copy(
                                 isLoading = false,

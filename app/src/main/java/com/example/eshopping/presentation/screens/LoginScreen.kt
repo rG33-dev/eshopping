@@ -1,6 +1,6 @@
-package com.example.eshopping.presentation
+package com.example.eshopping.presentation.screens
 
-import android.R.attr.text
+import android.R
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -107,7 +107,7 @@ fun LoginScreen() {
             modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
             shape = RoundedCornerShape(8.dp),
 
-            colors = ButtonDefaults.buttonColors(colorResource(android.R.color.holo_purple))
+            colors = ButtonDefaults.buttonColors(colorResource(R.color.holo_purple))
         )
         {
             Text(" Sign In",
