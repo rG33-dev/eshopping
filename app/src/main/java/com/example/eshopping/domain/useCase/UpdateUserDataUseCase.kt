@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class UpdateUserDataUseCase @Inject constructor(private val repo : Repo) {
 
-    fun updateUserData(userDataParent: UserDataParent): Flow<ResultState<Any>>
+    fun updateUserData(userDataParent: UserDataParent): Flow<ResultState<String>>
     {
         return repo.updateUserData(userDataParent)
     }

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface Repo {
     fun registerUserWithMailAndPassword(userData: UserData): Flow<ResultState<String>>
     fun loginUserWithMailAndPassword(userData: UserData): Flow<ResultState<String>>
-    fun getUsrById(uid:Any): Flow<ResultState<String>>
+    fun getUsrById(uid:Any): Flow<ResultState<UserDataParent>>
     fun updateUserData(userData: UserDataParent): Flow<ResultState<String>>
     fun userProfileImage(uri: Uri):Flow<ResultState<String>>
 

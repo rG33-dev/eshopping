@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class getCheckOutUseCase @Inject constructor(private val repo : Repo){
 
-    fun getCheckOutUseCase(productId : String) : Flow<ResultState<ProductDataModel>>
+    fun getCheckOutUseCase(productId : String) : Flow<ResultState<ProductDataModel>> {
 
         return repo.getCheckout(productId)
 }

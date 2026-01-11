@@ -12,7 +12,7 @@ class GetUserUseCase@Inject constructor(private val repo : Repo) {
 
     fun addToCart(uid : String): Flow<ResultState<UserDataParent>>
     {
-        return repo.getUsrById(uid) as Flow<ResultState<UserDataParent>>
+        return repo.getUsrById(uid)
     }
 
 
