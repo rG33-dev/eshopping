@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class GetAllProductUseCase @Inject constructor(private val repo : Repo) {
 
-    fun addToCart(cartDataModels : CartDataModel): Flow<ResultState<List<ProductDataModel>>>
+    fun getAllProducts(): Flow<ResultState<List<ProductDataModel>>>
     {
         return repo.getAllProducts()
     }

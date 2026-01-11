@@ -13,6 +13,7 @@ class GetBannerUseCase @Inject constructor(private val repo : Repo) {
     fun getBannerUseCase(): Flow<ResultState<List<BannerDataModels>>>
     {
         return repo.getBanner()
+
     }
 
 

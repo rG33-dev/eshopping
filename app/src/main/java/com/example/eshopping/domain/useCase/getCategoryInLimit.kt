@@ -10,9 +10,9 @@ import javax.inject.Inject
 
 class getCategoryInLimit @Inject constructor(private val repo : Repo) {
 
-    fun getCategoryLimit(productId : String ): Flow<ResultState<ProductDataModel>>
+    fun getCategoryLimit(productId : String ): Flow<ResultState<List<CategoryDataModel>>>
     {
-        return repo.getCheckout(productId)
+        return repo.getCategoriesInLimit()
     }
 
 

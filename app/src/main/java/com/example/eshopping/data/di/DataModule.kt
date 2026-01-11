@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 
 @Module
-@InstallIn(SingletonComponent ::class)
+@InstallIn(SingletonComponent :: class)
 object DataModule {
     @Singleton
     @Provides
@@ -25,3 +25,8 @@ object DataModule {
         return FirebaseFirestore.getInstance()
     }
 }
+/*
+use to provide instances of the firebase auth and firestore (Dagger Hilt).
+ */
+
+

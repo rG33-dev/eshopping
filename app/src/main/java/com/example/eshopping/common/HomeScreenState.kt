@@ -12,3 +12,6 @@ data class HomeScreenState(
 
 ) {
 }
+/*
+same as result state but here we handle the states of specific app
+ */

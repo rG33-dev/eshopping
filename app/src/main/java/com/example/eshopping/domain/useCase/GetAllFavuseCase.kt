@@ -12,6 +12,7 @@ class GetAllFavUseCase@Inject constructor(private val repo : Repo) {
     fun getALlFav(): Flow<ResultState<List<ProductDataModel>>>
     {
         return repo.getAllFav()
+
     }
 
 

@@ -7,7 +7,7 @@ import com.example.eshopping.domain.repo.Repo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class CreateUseruseCase @Inject constructor(private val repo : Repo) {
+class CreateUserUseCase @Inject constructor(private val repo : Repo) {
 
     fun createUser(userData: UserData): Flow<ResultState<Any>>
     {

@@ -6,3 +6,7 @@ sealed class ResultState<out T> {
     data class Error<T>(val message : String): ResultState<T>()
     data object Loading: ResultState<Nothing>()
 }
+/*
+basic file to hold the states of the app
+ */
+

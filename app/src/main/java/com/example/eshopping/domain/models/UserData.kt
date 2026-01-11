@@ -32,4 +32,4 @@ data class UserDataParent(
     val userData: UserData = UserData()
 )
 
-// we created USERdataparent  data class to let storage straight up access (UserData)instead of adding values manually
+// we created USER dataparent  data class to let storage straight up access (UserData)instead of adding values manually

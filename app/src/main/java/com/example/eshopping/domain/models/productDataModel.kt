@@ -14,6 +14,6 @@ data class ProductDataModel(
    var createdBy  : String = "",
    var description : String = "",
     var availableUnits : Int = 0,
-
+    var category :  String = " "
 
 )

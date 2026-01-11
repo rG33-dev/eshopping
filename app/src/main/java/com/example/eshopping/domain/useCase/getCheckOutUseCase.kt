@@ -6,13 +6,11 @@ import com.example.eshopping.domain.repo.Repo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class getAllSuggestedProductUseCase @Inject constructor(private val repo : Repo) {
+class getCheckOutUseCase @Inject constructor(private val repo : Repo){
 
-    fun getAllSuggested(): Flow<ResultState<List<ProductDataModel>>>
-    {
-        return repo.getAllSuggestedProducts()
-    }
+    fun getCheckOutUseCase(productId : String) : Flow<ResultState<ProductDataModel>>
 
-
+        return repo.getCheckout(productId)
+}
 
 }

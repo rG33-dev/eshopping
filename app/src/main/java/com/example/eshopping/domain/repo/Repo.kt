@@ -11,12 +11,13 @@ import com.example.eshopping.domain.models.UserDataParent
 import kotlinx.coroutines.flow.Flow
 
 interface Repo {
-    fun registerUserWithMailAndPassword(userData: UserData): Flow<ResultState<Any>>
-    fun loginUserWithMailAndPassword(userData: UserData): Flow<ResultState<Any>>
-    fun getUsrById(uid:Any): Flow<ResultState<Any>>
-    fun updateUserData(userData: UserDataParent): Flow<ResultState<Any>>
-    fun userProfileImage(uri: Uri):Flow<ResultState<Any>>
-    fun getCategoriesInLimited(): Flow<ResultState<List<CategoryDataModel>>>
+    fun registerUserWithMailAndPassword(userData: UserData): Flow<ResultState<String>>
+    fun loginUserWithMailAndPassword(userData: UserData): Flow<ResultState<String>>
+    fun getUsrById(uid:Any): Flow<ResultState<String>>
+    fun updateUserData(userData: UserDataParent): Flow<ResultState<String>>
+    fun userProfileImage(uri: Uri):Flow<ResultState<String>>
+
+    fun getCategoriesInLimit(): Flow<ResultState<List<CategoryDataModel>>>  // this was the error
 
 
     fun getProductsInLimited(): Flow<ResultState<List<ProductDataModel>>>

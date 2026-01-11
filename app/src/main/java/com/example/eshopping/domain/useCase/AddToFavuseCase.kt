@@ -7,7 +7,7 @@ import com.example.eshopping.domain.repo.Repo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class AddToFavuseCase  @Inject constructor(private val repo : Repo) {
+class AddToFavUseCase  @Inject constructor(private val repo : Repo) {
 
     fun addToFav(productDataModels : ProductDataModel): Flow<ResultState<Any>>
     {
