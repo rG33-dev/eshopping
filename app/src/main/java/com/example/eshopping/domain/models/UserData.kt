@@ -3,13 +3,13 @@ package com.example.eshopping.domain.models
 import androidx.compose.runtime.mutableStateMapOf
 
 data class UserData(
-    val firstName: String? = null,
-    val lastName: String? = null,
-    val password: String? = null,
-    val profileImage: String? = null,
-    val mail: String? = null,
-    val address: String? = null,
-    val mobile: String? = null
+    val firstName: String= "",
+    val lastName: String = " ",
+    val password: String = "",
+    val profileImage: String = "",
+    val mail: String = "",
+    val address: String = "",
+    val mobile: String =""
 )
 {
     fun toMap(): Map<String, Any> {

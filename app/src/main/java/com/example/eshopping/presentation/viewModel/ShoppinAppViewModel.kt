@@ -8,9 +8,7 @@ import com.example.eshopping.domain.models.CartDataModel
 import com.example.eshopping.domain.models.CategoryDataModel
 import com.example.eshopping.domain.models.ProductDataModel
 import com.example.eshopping.domain.models.UserDataParent
-import com.example.eshopping.domain.useCase.AddToCartuseCase
-import com.example.eshopping.domain.useCase.AddToFavuseCase
-import com.example.eshopping.domain.useCase.CreateUseruseCase
+
 import com.example.eshopping.domain.useCase.GetAllFavUseCase
 import com.example.eshopping.domain.useCase.GetAllProductUseCase
 import com.example.eshopping.domain.useCase.GetBannerUseCase
@@ -30,7 +28,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ShoppingAppViewModel @Inject constructor(
-    private val createUserUseCase: CreateUseruseCase,
+    private val createUserUseCase: createUseruseCase,
     private val loginUserUseCase: LoginUserUseCase,
     private val getUsrByIdUseCase: GetUserUseCase,
     private val updateUserDataUseCase: UpdateUserDataUseCase,
