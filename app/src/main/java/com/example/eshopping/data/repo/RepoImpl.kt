@@ -31,7 +31,7 @@ class RepoImpl  @Inject constructor(
 
 
 {
-    override fun registerUserWithMailAndPassword(userData: UserData): Flow<ResultState<String>>  =
+    override fun registerUserWithMailAndPassword(userData: com.google.firebase.firestore.core.UserData): Flow<ResultState<String>>  =
         callbackFlow{
             trySend(ResultState.Loading)
             firebaseAuth.createUserWithEmailAndPassword(userData.mail,userData.password).addOnCompleteListener {
@@ -67,7 +67,7 @@ class RepoImpl  @Inject constructor(
 
 
 
-    override fun loginUserWithMailAndPassword(userData: UserData): Flow<ResultState<String>> = callbackFlow {
+    override fun loginUserWithMailAndPassword(userData: com.google.firebase.firestore.core.UserData): Flow<ResultState<String>> = callbackFlow {
         trySend(ResultState.Loading)
         firebaseAuth.signInWithEmailAndPassword(userData.mail, userData.password)
             .addOnCompleteListener {

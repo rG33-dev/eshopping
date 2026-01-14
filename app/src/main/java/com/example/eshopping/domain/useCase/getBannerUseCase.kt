@@ -10,6 +10,8 @@ import javax.inject.Inject
 
 class GetBannerUseCase @Inject constructor(private val repo : Repo) {
 
+    var banner: Flow<ResultState<List<BannerDataModels>>> = TODO("initialize me")
+
     fun getBannerUseCase(): Flow<ResultState<List<BannerDataModels>>>
     {
         return repo.getBanner()

@@ -95,4 +95,8 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:22.0.1")
     implementation("com.google.firebase:firebase-firestore:26.0.2")
 
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+
+
+
 }

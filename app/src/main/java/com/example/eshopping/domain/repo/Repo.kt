@@ -6,13 +6,12 @@ import com.example.eshopping.domain.models.BannerDataModels
 import com.example.eshopping.domain.models.CartDataModel
 import com.example.eshopping.domain.models.CategoryDataModel
 import com.example.eshopping.domain.models.ProductDataModel
-import com.example.eshopping.domain.models.UserData
 import com.example.eshopping.domain.models.UserDataParent
 import kotlinx.coroutines.flow.Flow
 
 interface Repo {
-    fun registerUserWithMailAndPassword(userData: UserData): Flow<ResultState<String>>
-    fun loginUserWithMailAndPassword(userData: UserData): Flow<ResultState<String>>
+    fun registerUserWithMailAndPassword(userData: com.google.firebase.firestore.core.UserData): Flow<ResultState<String>>
+    fun loginUserWithMailAndPassword(userData: com.google.firebase.firestore.core.UserData): Flow<ResultState<String>>
     fun getUsrById(uid:Any): Flow<ResultState<UserDataParent>>
     fun updateUserData(userData: UserDataParent): Flow<ResultState<String>>
     fun userProfileImage(uri: Uri):Flow<ResultState<String>>
