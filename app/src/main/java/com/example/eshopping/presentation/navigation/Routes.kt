@@ -18,6 +18,13 @@ sealed class Routes{
     object ProfileScreen
     @Serializable
     object SearchScreen
+
+    @Serializable
+    object CategoryScreen
+    @Serializable
+    object MyOrderScreen
+    @Serializable
+    object MallScreen
     @Serializable
     object CartScreen
     @Serializable

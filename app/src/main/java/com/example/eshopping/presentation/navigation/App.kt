@@ -12,22 +12,26 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun App(firebaseAuth: FirebaseAuth,payTest: () -> Unit){
-    val  navController = rememberNavController()
+fun App(firebaseAuth: FirebaseAuth,payTest: () -> Unit) {
+    val navController = rememberNavController()
     var selectedItem by remember { mutableIntStateOf(0) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination?.route
-    val shouldShowBottomBar by remember { mutableIntStateOf(0) }
+    var shouldShowBottomBar by remember { mutableIntStateOf(0) }
 
 
     LaunchedEffect(currentDestination) {
-        shouldShowBottomBar =when(currentDestination){
+        shouldShowBottomBar = when (currentDestination) {
             Routes.HomeScreen::class.qualifiedName,
-            Routes.ProfileScreen::class.qualifiedName,
-            Routes.My
+            Routes.CategoryScreen::class.qualifiedName,
+            Routes.MyOrderScreen::class.qualifiedName,
+          Routes.MallScreen::class.qualifiedName -> 1
+
+            else -> 0
+
         }
     }
-
-
-
 }
+
+
+
