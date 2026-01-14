@@ -28,6 +28,7 @@ import com.example.eshopping.domain.useCase.getProductsInLimitUseCase
 import com.example.eshopping.domain.useCase.getSpecificCategoryUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -214,12 +215,222 @@ class ShoppingAppViewModel @Inject constructor(
     }
 
 
-    fun getAllCategories(){}
+    @Suppress("UNCHECKED_CAST")
+    fun getAllCategories() {
+        viewModelScope.launch {
+            getAllCategoryUseCase.getAllCategoriesUseCase().collect {
+                when (it) {
+                    is ResultState.Error<*> -> {
+                        _getAllCategoriesState.value = _getAllCategoriesState.value.copy(
+                            isLoading = false,
+                            errorMessage = it.message
+                        )
+                    }
+
+                    is ResultState.Success<*> -> {
+                        _getAllCategoriesState.value = _getAllCategoriesState.value.copy(
+                            userData = it.data as List<CategoryDataModel>,
+                            isLoading = false,
+                            errorMessage = null
+                        )
+
+                    }
+
+                    is ResultState.Loading -> {
+                        _getAllCategoriesState.value = _getAllCategoriesState.value.copy(
+                            isLoading = true
+                        )
+
+                    }
+                }
+            }
+        }
+    }
+
+
+    fun getCart() {
+        viewModelScope.launch {
+            getCartUseCase.getCart().collect {
+                when (it) {
+                    is ResultState.Success -> {
+                        _getCartState.value = _getCartState.value.copy(
+                            userData = it.data,
+                            isLoading = false,
+                            errorMessage = null
+                        )
+                    }
+
+                    is ResultState.Error -> {
+                        _getCartState.value = _getCartState.value.copy(
+                            isLoading = false,
+                            errorMessage = it.message
+                        )
+                    }
+
+                    is ResultState.Loading -> {
+                        _getCartState.value = _getCartState.value.copy(
+                            isLoading = true
+                        )
+
+                    }
+
+
+                }
+            }
+
+        }
+    }
+
+
+    fun getAllFav() {
+        viewModelScope.launch {
+            getAllFavUseCase.getALlFav().collect {
+                when (it) {
+                    is ResultState.Success -> {
+                        _getAllFavState.value = _getAllFavState.value.copy(
+                            userData = it.data,
+                            isLoading = false,
+                            errorMessage = null
+                        )
+                    }
+
+                    is ResultState.Error -> {
+                        _getAllFavState.value = _getAllFavState.value.copy(
+                            isLoading = false,
+                            errorMessage = it.message
+                        )
+                    }
+
+                    is ResultState.Loading -> {
+                        _getAllFavState.value = _getAllFavState.value.copy(
+                            isLoading = true
+                        )
+                    }
+
+
+                }
+            }
+
+        }
+
+
+    }
+
+
+    fun addToFav(productDataModel: ProductDataModel) {
+        viewModelScope.launch {
+            addToFavUseCase.addToFav(productDataModel).collect {
+                when (it) {
+                    is ResultState.Success -> {
+                        _addToFavState.value = _addToFavState.value.copy(
+                            userData = it.data as String?,
+                            isLoading = false,
+                            errorMessage = null
+                        )
+
+
+                    }
+
+                    is ResultState.Error -> {
+                        _addToFavState.value = _addToFavState.value.copy(
+                            isLoading = false,
+                            errorMessage = it.message
+                        )
+
+
+                    }
+
+                    is ResultState.Loading -> {
+                        _addToFavState.value = _addToFavState.value.copy(
+                            isLoading = true
+                        )
+                    }
+
+
+                }
+
+            }
+
+
+        }
+    }
+
+
+    fun getProductById(productId: String) {
+        viewModelScope.launch {
+            getProductByIdUseCase.getProductById(productId).collect {
+                when (it) {
+                    is ResultState.Success -> {
+                        _getProductByIdState.value = _getProductByIdState.value.copy(
+                            userData = it.data,
+                            isLoading = false,
+                            errorMessage = null
+                        )
+                    }
+
+                    is ResultState.Error -> {
+                        _getProductByIdState.value = _getProductByIdState.value.copy(
+                            isLoading = false,
+                            errorMessage = it.message
+                        )
+                    }
+                    is ResultState.Loading -> {
+                        _getProductByIdState.value = _getProductByIdState.value.copy(
+                            isLoading = true
+                        )
+                    }
+
+
+
+                }
+
+            }
+        }
+    }
+
+
+    fun addToCart(cartDataModel: CartDataModel) {
+        viewModelScope.launch {
+            addToCartUseCase.addToCart(cartDataModel).collect {
+                when (it) {
+                    is ResultState.Success -> {
+                        _addToCartState.value = _addToCartState.value.copy(
+                            userData = it.data as String?,
+                            isLoading = false,
+                            errorMessage = null
+                        )
+                    }
+
+                    is ResultState.Error -> {
+                        _addToCartState.value = _addToCartState.value.copy(
+                            isLoading = false,
+                            errorMessage = it.message)
+
+
+
+                    }
+                    is ResultState.Loading -> {
+                        _addToCartState.value = _addToCartState.value.copy(
+                            isLoading = true,
+                            errorMessage = null,
+
+
+                        )
+
+                    }
+
+                }
+
+            }
+        }
+
+        }
 
 
 
 
 }
+
 
 
 data class ProfileScreenState(
@@ -332,3 +543,4 @@ data class GetAllSuggestedProductsState(
 
 
 )
+
