@@ -11,6 +11,32 @@ sealed class SubNavigation(){
 sealed class Routes{
 
     @Serializable
+    object SignUpScreen
+    @Serializable
+    object AppMallScreen
+
+    @Serializable
+    object WishListScreen
+
+    @Serializable
+    object PayScreen
+
+    @Serializable
+    object SeeAllProductsScreen
+
+    @Serializable
+    object AllCategoriesScreen
+    // In Routes.kt
+    @Serializable
+    data class EachProductDetailScreen(val productID: String) // Changed from object to data class
+    @Serializable
+    data class EachCategoryItemsScreen(val categoryName : String)
+
+    @Serializable
+    data class CheckOutScreen(val productID : String, )
+
+
+    @Serializable
     object LoginSignUpScreen
     @Serializable
     object HomeScreen

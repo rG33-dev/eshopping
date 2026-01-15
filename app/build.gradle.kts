@@ -96,6 +96,11 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:26.0.2")
 
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    // For Animated Navigation Bar (External Library)
+    implementation("com.exyte:animated-navigation-bar:1.0.0")
+
+    //for animatedBottomBar
+    implementation("com.canopas.compose-animated-navigationbar:bottombar:1.0.1")
 
 
 
