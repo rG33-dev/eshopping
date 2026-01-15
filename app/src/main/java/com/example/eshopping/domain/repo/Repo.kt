@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface Repo {
     fun registerUserWithMailAndPassword(userData: com.google.firebase.firestore.core.UserData): Flow<ResultState<String>>
     fun loginUserWithMailAndPassword(userData: com.google.firebase.firestore.core.UserData): Flow<ResultState<String>>
-    fun getUsrById(uid:Any): Flow<ResultState<UserDataParent>>
+    fun getUsrById(uid: String): Flow<ResultState<UserDataParent>>
     fun updateUserData(userData: UserDataParent): Flow<ResultState<String>>
     fun userProfileImage(uri: Uri):Flow<ResultState<String>>
 

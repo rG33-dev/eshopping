@@ -431,6 +431,7 @@ class ShoppingAppViewModel @Inject constructor(
 
 
     init {
+
         loadHomeScreenData()
     }
 
@@ -597,10 +598,84 @@ class ShoppingAppViewModel @Inject constructor(
 
     fun getUsrById(userId: String) {
         viewModelScope.launch {
+            getUsrByIdUseCase.getUserById(userId).collect {
+                when (it) {
+                    is ResultState.Success -> {
+                        _profileScreenState.value = _profileScreenState.value.copy(
+                            userData = it.data,
+                            isLoading = false,
+                            errorMessage = null
+                        )
+                    }
+
+                    is ResultState.Error -> {
+                        _profileScreenState.value = _profileScreenState.value.copy(
+                            isLoading = false,
+                            errorMessage = it.message
+                        )
+
+                    }
+                    is ResultState.Loading -> {
+                        _profileScreenState.value = _profileScreenState.value.copy(
+                            isLoading = true
+                        )
+                    }
+
+                }
+
+            }
+
 
 
         }
     }
+
+    fun getAllSuggestedProducts() {
+        viewModelScope.launch {
+            getAllSuggestedProductsUseCase.getAllSuggested().collect {
+                when (it) {
+                    is ResultState.Success -> {
+                        _getAllSuggestedProductsState.value =
+                            _getAllSuggestedProductsState.value.copy(
+                                userData = it.data,
+                                isLoading = false,
+                                errorMessage = null
+                            )
+
+                    }
+
+                    is ResultState.Error -> {
+                        _getAllSuggestedProductsState.value =
+                            _getAllSuggestedProductsState.value.copy(
+                                isLoading = false,
+                                errorMessage = it.message
+                            )
+
+                    }
+
+                    is ResultState.Loading -> {
+                        _getAllSuggestedProductsState.value =
+                            _getAllSuggestedProductsState.value.copy(
+                                isLoading = true,
+
+                                )
+
+                    }
+                }
+
+            }
+
+        }
+    }// for error while loading data check this function or similar functions
+
+
+
+
+
+
+
+
+
 }
 
 
