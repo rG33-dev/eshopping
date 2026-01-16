@@ -43,6 +43,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
+import com.example.eshopping.presentation.screens.LoginScreenUi
 
 
 // Updated App.kt with fixes
@@ -120,8 +121,8 @@ fun App(firebaseAuth: FirebaseAuth, payTest: () -> Unit) {
             ) {
 
                 navigation<SubNavigation.LoginSignUpScreen>(startDestination = startScreen) {
-                    composable<Routes.SignUpScreen> {
-                        SignupScreenUi(navController = navController)
+                    composable<Routes.LoginScreen> {
+                        LoginScreenUi(navController = navController)
                     }
                 }
 

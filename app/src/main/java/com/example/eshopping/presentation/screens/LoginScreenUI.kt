@@ -5,7 +5,7 @@ import androidx.navigation.NavController
 import com.example.eshopping.presentation.viewModel.LoginScreenState
 
 @Composable
-fun  LoginScreenState(navController : NavController)
+fun  LoginScreenUi(navController : NavController)
 {
 
 }
