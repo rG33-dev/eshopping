@@ -1,8 +1,5 @@
 package com.example.eshopping.presentation.navigation
 
-import android.R.attr.name
-import android.text.Layout
-import androidx.compose.animation.core.AnimationVector
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,11 +7,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ShortNavigationBarItem
-import androidx.compose.runtime.Applier
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -23,30 +20,32 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.painterResource
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.example.bottombar.AnimatedBottomBar
-import com.example.eshopping.R
-import com.exyte.animatednavbar.AnimatedNavigationBar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.type.Color
-import kotlin.collections.map
-import  androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.runtime.internal.composableLambda
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.eshopping.R
+import com.example.eshopping.presentation.screens.AllCategoriesScreenUI
+import com.example.eshopping.presentation.screens.AppMallScreenUi
+import com.example.eshopping.presentation.screens.CartScreen
+import com.example.eshopping.presentation.screens.CategoryScreen
+import com.example.eshopping.presentation.screens.CheckOutScreenUi
+import com.example.eshopping.presentation.screens.EachCategoryProductScreenUi
+import com.example.eshopping.presentation.screens.EachProductDetailScreenUi
+import com.example.eshopping.presentation.screens.GetAllFav
+import com.example.eshopping.presentation.screens.GetAllProducts
+import com.example.eshopping.presentation.screens.HomeScreenUI
 import com.example.eshopping.presentation.screens.LoginScreenUi
+import com.example.eshopping.presentation.screens.MyOrderScreen
+import com.example.eshopping.presentation.screens.PayScreen
+import com.example.eshopping.presentation.screens.ProfileScreen
+import com.example.eshopping.presentation.screens.SearchBarScreen
+import com.google.firebase.auth.FirebaseAuth
 
 
-// Updated App.kt with fixes
 @Composable
 fun App(firebaseAuth: FirebaseAuth, payTest: () -> Unit) {
     val navController = rememberNavController()
@@ -66,7 +65,6 @@ fun App(firebaseAuth: FirebaseAuth, payTest: () -> Unit) {
         }
     }
 
-    // Renamed to avoid shadowing the class name
     val navItems = listOf(
         BottomNavItem("Home", painterResource(R.drawable.ic_launcher_foreground)),
         BottomNavItem("Category", painterResource(R.drawable.ic_launcher_foreground)),
@@ -74,11 +72,9 @@ fun App(firebaseAuth: FirebaseAuth, payTest: () -> Unit) {
         BottomNavItem("Mall", painterResource(R.drawable.ic_launcher_foreground))
     )
 
-
-    val startScreen = if (firebaseAuth.currentUser == null){
+    val startNav = if (firebaseAuth.currentUser == null) {
         SubNavigation.LoginSignUpScreen
-    }
-    else{
+    } else {
         SubNavigation.MainHomeScreen
     }
 
@@ -94,7 +90,12 @@ fun App(firebaseAuth: FirebaseAuth, payTest: () -> Unit) {
                             selected = selectedItem == index,
                             onClick = {
                                 selectedItem = index
-                                // TODO: navController.navigate(Route)
+                                when(index) {
+                                    0 -> navController.navigate(Routes.HomeScreen)
+                                    1 -> navController.navigate(Routes.CategoryScreen)
+                                    2 -> navController.navigate(Routes.MyOrderScreen)
+                                    3 -> navController.navigate(Routes.MallScreen)
+                                }
                             },
                             icon = {
                                 Icon(
@@ -109,7 +110,6 @@ fun App(firebaseAuth: FirebaseAuth, payTest: () -> Unit) {
             }
         }
     ) { innerPadding ->
-        // Use innerPadding to automatically handle the bottom bar height
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -117,100 +117,92 @@ fun App(firebaseAuth: FirebaseAuth, payTest: () -> Unit) {
         ) {
             NavHost(
                 navController = navController,
-                startDestination = Routes.LoginSignUpScreen // Or your intended start screen
+                startDestination = startNav
             ) {
 
-                navigation<SubNavigation.LoginSignUpScreen>(startDestination = startScreen) {
+                navigation<SubNavigation.LoginSignUpScreen>(startDestination = Routes.LoginScreen) {
                     composable<Routes.LoginScreen> {
                         LoginScreenUi(navController = navController)
                     }
                 }
 
-                composable<Routes.HomeScreen> {
-                    HomeScreenUI(navController = navController)
-                }
+                navigation<SubNavigation.MainHomeScreen>(startDestination = Routes.HomeScreen) {
+                    composable<Routes.HomeScreen> {
+                        HomeScreenUI(navController = navController)
+                    }
 
+                    composable<Routes.CategoryScreen> {
+                        CategoryScreen(navController = navController)
+                    }
 
-                composable<Routes.CategoryScreen> {
-                    Routes.CategoryScreen(navController = navController)
-                }
+                    composable<Routes.AppMallScreen> {
+                        AppMallScreenUi(navController = navController)
+                    }
 
+                    composable<Routes.MyOrderScreen> {
+                        MyOrderScreen(navController = navController)
+                    }
 
-                composable<Routes.AppMallScreen> {
-                    Routes.AppMallScreen(navController = navController)
-                }
+                    composable<Routes.ProfileScreen> {
+                        ProfileScreen(firebaseAuth = firebaseAuth, navController = navController)
+                    }
 
+                    composable<Routes.WishListScreen> {
+                        GetAllFav(navController = navController)
+                    }
 
-                composable<Routes.MyOrderScreen> {
-                    Routes.MyOrderScreen(navController = navController)
-                }
+                    composable<Routes.CartScreen> {
+                        CartScreen(navController = navController)
+                    }
 
-                composable<Routes.ProfileScreen> {
-                    Routes.ProfileScreen(firebaseAuth = firebaseAuth, navController = navController)
-                }
+                    composable<Routes.SearchScreen> {
+                        SearchBarScreen(navController = navController)
+                    }
 
-                composable<Routes.WishListScreen> {
-                    GetAllFav(
-                        navController = navController
-                    )
+                    composable<Routes.PayScreen> {
+                        PayScreen(navController = navController)
+                    }
 
-                }
-                composable<Routes.CartScreen> {
-                    Routes.CartScreen(navController = navController)
-                }
-                composable<Routes.SearchScreen> {
-                    Routes.SearchScreen(navController = navController)
-                }
-                composable<Routes.PayScreen> {
-                    Routes.PayScreen(navController = navController)
-                }
-                composable<Routes.SeeAllProductsScreen> {
-                    Routes.GetAllProducts(navController = navController)
-                }
-                composable<Routes.AllCategoriesScreen> {
-                    Routes.AllCategoriesScreen(navController = navController)
-                }
-                composable<Routes.AllCategoriesScreen> {
-                    Routes.AllCategoriesScreen(navController = navController)
-                }
-                composable<Routes.EachProductDetailScreen> {
-                    val product :  Routes.EachProductDetailScreen = it.toRoute()
-                    EachProductDetailScreenUi(
-                        productID = product.productID,
-                        navController = navController
-                    )
-                }
-                composable<Routes.EachCategoryItemsScreen> {
-                    val product :  Routes.EachProductDetailScreen = it.toRoute()
-                    EachCategoryProductScreenUi(
-                        productID = product.productID,
-                        navController = navController
-                    )
-                }
-                composable<Routes.CheckoutScreen> {
-                    val product :  Routes.EachProductDetailScreen = it.toRoute()
-                   CheckOutScreenUi(
-                        productID = product.productID,
-                        navController = navController,
-                        pay = payTest
-                    )
-                }
+                    composable<Routes.SeeAllProductsScreen> {
+                        GetAllProducts(navController = navController)
+                    }
 
+                    composable<Routes.AllCategoriesScreen> {
+                        AllCategoriesScreenUI(navController = navController)
+                    }
 
+                    composable<Routes.EachProductDetailScreen> {
+                        val product: Routes.EachProductDetailScreen = it.toRoute()
+                        EachProductDetailScreenUi(
+                            productID = product.productID,
+                            navController = navController
+                        )
+                    }
 
+                    composable<Routes.EachCategoryItemsScreen> {
+                        val category: Routes.EachCategoryItemsScreen = it.toRoute()
+                        EachCategoryProductScreenUi(
+                            productID = category.categoryName,
+                            navController = navController
+                        )
+                    }
 
+                    composable<Routes.CheckoutScreen> {
+                        val product: Routes.EachProductDetailScreen = it.toRoute() // Check route mapping
+                        CheckOutScreenUi(
+                            productID = product.productID,
+                            navController = navController,
+                            pay = payTest
+                        )
+                    }
+                }
             }
-
         }
     }
 }
-
 
 data class BottomNavItem(
     val name: String,
     val icon: Painter,
     val unselectedIcon: Painter? = null
 )
-
-
-
