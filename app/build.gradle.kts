@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -101,6 +102,13 @@ dependencies {
 
     //for animatedBottomBar
     implementation("com.canopas.compose-animated-navigationbar:bottombar:1.0.1")
+
+
+
+        // Requires version 1.3.0 or higher
+        implementation("androidx.compose.material3:material3:1.3.1")
+
+    implementation("androidx.compose.material:material-icons-extended")
 
 
 

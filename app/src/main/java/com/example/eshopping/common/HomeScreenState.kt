@@ -8,7 +8,10 @@ data class HomeScreenState(
     val errorMessage : String ? = null,
     val categories :List<ProductDataModel>? = null,
     val products: List<ProductDataModel>?=null,
-    val banners: List<BannerDataModels> ? = null
+    val banners: List<BannerDataModels> ? = null,
+    val suggestedProducts: List<ProductDataModel>? = null,
+
+
 
 ) {
 }
